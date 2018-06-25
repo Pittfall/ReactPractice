@@ -12,18 +12,20 @@ class App extends Component {
     showPeople: false
   }
 
-  switchNameHandler = (newName) => {
-    let newPeople = this.state.people.slice();
-    newPeople[0].name = (newPeople[0].name === newName) ? "Liviu" : newName;
-    this.setState({people: newPeople});
+  deletePersonHandler = (personIndex) => {
+    // slice creates a copy rather than assigning by reference which is default for arrays.
+    // Another approach is to use the spread operator (example: people = [...this.state.people])
+    const people = this.state.people.slice();
+    people.splice(personIndex, 1);
+    this.setState({people : people});
   }
 
   nameChangedHandler = (event) => {
     this.setState( {
       people: [
-        { name: "Andrew", age: 30 },
-        { name: event.target.value, age: 29 },
-        { name: "Jessica", age: 20 }
+        { id: '1', name: event.target.value, age: 30 },
+        { id: '2', name: event.target.value, age: 29 },
+        { id: '3', name: event.target.value, age: 20 }
       ]
     })
   }
@@ -42,26 +44,27 @@ class App extends Component {
       cursor: 'pointer'
     }
 
+    let people = null;
+
+    if (this.state.showPeople) {
+      people = (
+        <div>
+          {this.state.people.map((person, index) => {
+            return <Person 
+              click={this.deletePersonHandler.bind(null, index)}
+              name={person.name} 
+              age={person.age}
+              key={person.id} />
+          })}
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>Hi, I'm a react app</h1>
         <button style={style} onClick={this.togglePeopleHandler}>Toggle People</button>
-        {
-          this.state.showPeople ?
-            <div>
-              <Person 
-              name={this.state.people[0].name} 
-              age = {this.state.people[0].age}>My hobby is fishing</Person>
-              <Person 
-              name={this.state.people[1].name} 
-              age = {this.state.people[1].age} 
-              click={this.switchNameHandler.bind(this, "Christina")} 
-              changed={this.nameChangedHandler} />
-              <Person 
-              name={this.state.people[2].name} 
-              age = {this.state.people[2].age} />
-            </div> : null
-          }
+        {people}
       </div>
     );
   }
