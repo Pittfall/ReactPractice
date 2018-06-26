@@ -57,14 +57,16 @@ class App extends Component {
     if (this.state.showPeople) {
       people = (
         <div>
-          {this.state.people.map((person, index) => {
+          {
+            this.state.people.map((person, index) => {
             return <Person 
               key={person.id}
               click={this.deletePersonHandler.bind(null, index)}
               name={person.name} 
               age={person.age} 
               changed={(event) => this.nameChangedHandler(event, person.id)} />
-          })}
+            })
+          }
         </div>
       );
       console.log(this);
