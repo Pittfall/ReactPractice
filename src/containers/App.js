@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from './Person/Person';
+import People from '../components/People/People';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -45,35 +46,14 @@ class App extends Component {
 
   render() {
     let people = null;
-    let btnClass = '';
 
     if (this.state.showPeople) {
-      people = (
-          this.state.people.map((person, index) => {
-          return <Person 
-                  click={this.deletePersonHandler.bind(null, index)}
-                  name={person.name} 
-                  age={person.age} 
-                  changed={(event) => this.nameChangedHandler(event, person.id)} />
-          })
-      );
-
-      btnClass = classes.Red;
-    }
-
-    const localClasses = [];
-    if (this.state.people.length <= 2) {
-      localClasses.push(classes.red);
-    }
-    if (this.state.people.length <= 1) {
-      localClasses.push(classes.bold);
+      people = ( <People people={this.state.people} clicked={this.deletePersonHandler} changed={this.nameChangedHandler} /> );
     }
 
     return (
       <div className={classes.App}>
-        <h1>Hi, I'm a react app</h1>
-        <p className={localClasses.join(' ')}>This is really working!</p>
-        <button className={btnClass} onClick={this.togglePeopleHandler}>Toggle People</button>
+        <Cockpit title={this.props.title} people={this.state.people} showPeople={this.state.showPeople} clicked={this.togglePeopleHandler} />
         {people}
       </div>
     );
