@@ -1,6 +1,5 @@
 import React from 'react'
 import classes from './Cockpit.css';
-import Hoc from './Hoc';
 
 const Cockpit = (props) => {
     const localClasses = [];
@@ -14,11 +13,11 @@ const Cockpit = (props) => {
     }
 
     return (
-        <Hoc>
+        <React.Fragment>
             <h1>{props.title}</h1>
             <p className={localClasses.join(' ')}>This is really working!</p>
             <button className={btnClass} onClick={props.clicked}>Toggle People</button>
-        </Hoc>
+        </React.Fragment>
     );
 }
 
